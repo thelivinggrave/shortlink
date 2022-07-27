@@ -10,10 +10,10 @@ document.addEventListener("DOMContentLoaded", function() {
         let url = $("#link-url").val();
 
         if (!isURL(url))
-            return alert("Invalid URL address!");
+            return alert("Неверный URL-адрес!");
 
         $.ajax({
-            url: "/ajax",
+            url: window.location.href + "ajax",
             method: "POST",
             dataType: "json",
             data: {

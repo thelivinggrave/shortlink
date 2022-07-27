@@ -1,64 +1,42 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Shortlinks - Сервис для создания коротких ссылок
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+## Немного о проекте и разработчике
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Данный сервис является тестовым заданием от компании Rave Technology. Разработал его __Некрасов Артём__.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Сервис имеет минималистичный дизайн и минимальное количество HTML-элементов, представляет из себя веб-страницу с названием сервиса и очень простой формой для заполнения. В сервисе присутствует валидация вводимого URL-адреса, но только на стороне клиента, при этом адрес должен вводиться полностью, т.е. с протоколом подключения (http/s://), что сначала мне показалось неудобно, но для рядового пользователя будет все-равно, так как ссылка будет скопирована из браузера и вставлена в форму.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Ссылка полученная в результате имеет вид `domain/{код_ссылки}`, где код ссылки имеет длину минимум 4 символа (подумал, что код ссылки меньшего размера выглядит неубедительно). Код ссылки получается путем перевода id записи в БД в 36-ричную систему счисления, что позволит ссылкам увеличиваться в длине гораздо медленнее, чем при использовании только цифр, либо только латинских символов. Если необходимо еще сильнее сократить ссылки, можно использовать также заглавные латинские символы, что позволит расширить используемую систему счисления до 62-ричной.
 
-## Learning Laravel
+## Инструкция по установке и запуску
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Сделайте копию проекта из репозитория.
+2. Откройте терминал в папке проекта.
+3. Пропишите команду для установки зависимостей и недостающих пакетов: `docker-compose up --build`.
+4. Необходимо зайти в СУБД (если ничего не меняли, то в Adminer) *127.0.0.1:6080* и создать БД с названием *shortlink_db*.
+    * Файл .env настраивать не надо, я не добавлял его в исключения в Git, так что он заранее настроен для подключения к БД и в общем для корректной работы.
+5. Зайдите в сервис *web* `docker-compose exec web bash` и произведите выполнение файлов миграции в БД `php artisan migrate`.
+6. После проделанных действий веб-сервис будет доступен по адресу *127.0.0.1:8080/public*.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+## Перечень использованных технологий
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Frontend
 
-### Premium Partners
+- Стандартно: HTML, CSS, JS
+- jQuery 3.6.0 + jQuery AJAX
+- Bootstrap 5.0
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### Backend
 
-## Contributing
+- PHP 8.1
+- Laravel 9.x
+- MySQL + PhpMyAdmin
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Другое
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Docker
+- Composer
+- GIT
