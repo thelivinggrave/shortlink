@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function() {
             complete: (data, status) =>
             {
                 let shortUrl = window.location.href + data.responseJSON.code;
-                console.log(data.responseJSON.code);
                 $("#short-url").val(shortUrl);
             }
         });
